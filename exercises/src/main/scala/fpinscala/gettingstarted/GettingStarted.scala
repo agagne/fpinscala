@@ -131,6 +131,40 @@ object MonomorphicBinarySearch {
 
 }
 
+
+
+object TestSorted {
+
+  import PolymorphicFunctions._
+
+  // test implementation of `isSorted`
+  def main(args: Array[String]): Unit = {
+    val a = Array(1,2,3,4,5)
+    val a2 = Array(1,2,2,3,4)
+    val aa = Array("a","b","c")
+    val aa2 = Array("a","b","c","c")
+    val b = Array(1,2,5,4)
+    val bb = Array("b","A","c")
+    
+    def intCompare = (x:Int,y:Int) => {
+      if(x > y) true
+      else false
+    }
+    def stringCompare = (x:String,y:String) => {
+      if(x.compareTo(y) > 0) true
+      else false
+    }
+    println("Expected: true, true, false, true, true, false")
+    println("Actual:   %b, %b, %b, %b %b, %b".format(
+        isSorted(a,intCompare),
+        isSorted(a2,intCompare),
+        isSorted(b,intCompare),
+        isSorted(aa,stringCompare),
+        isSorted(aa2,stringCompare),
+        isSorted(bb,stringCompare)))
+  }
+}
+
 object PolymorphicFunctions {
 
   // Here's a polymorphic version of `binarySearch`, parameterized on
@@ -153,7 +187,16 @@ object PolymorphicFunctions {
 
   // Exercise 2: Implement a polymorphic function to check whether
   // an `Array[A]` is sorted
-  def isSorted[A](as: Array[A], gt: (A,A) => Boolean): Boolean = ???
+  def isSorted[A](as: Array[A], gt: (A,A) => Boolean): Boolean = {
+    @tailrec
+    def loop(curr:Int):Boolean ={
+      val next = curr + 1
+      if(next >= as.length) true
+      else if(gt(as(curr),as(next))) false
+      else loop(next)      
+    }
+    loop(0)
+  }
 
   // Polymorphic functions are often so constrained by their type
   // that they only have one implementation! Here's an example:
