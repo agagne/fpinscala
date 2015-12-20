@@ -1,5 +1,7 @@
 package fpinscala.datastructures
 
+import scala.annotation.tailrec
+
 sealed trait List[+A] // `List` data type, parameterized on a type, `A`
 case object Nil extends List[Nothing] // A `List` data constructor representing the empty list
 /* Another data constructor, representing nonempty lists. Note that `tail` is another `List[A]`,
@@ -67,9 +69,21 @@ object List { // `List` companion object. Contains functions for creating and wo
     }
   }
 
-  def dropWhile[A](l: List[A], f: A => Boolean): List[A] = sys.error("todo")
+  //3.5
+  def dropWhile[A](l: List[A], f: A => Boolean): List[A] = l match {
+    case Cons(h,t) => {
+      if(f(h)) t
+      else l
+    }
+    case _ => l
+  }
 
-  def init[A](l: List[A]): List[A] = sys.error("todo")
+  //3.6
+  def init[A](l: List[A]): List[A] = l match {
+    case Nil => sys.error("Can not init an empty list")
+    case Cons(_,Nil) => Nil
+    case Cons(h,t) => Cons(h, init(t))
+  }
 
   def length[A](l: List[A]): Int = sys.error("todo")
 
