@@ -100,7 +100,10 @@ object List { // `List` companion object. Contains functions for creating and wo
   //3.11 - foldLeft product
   def productFoldLeft(l: List[Int]): Int = foldLeft(l,1)(_*_)
   //3.11 - foldLeft length
-  def lengthFoldLeft[A](l: List[A]): Int = foldLeft(l,0)((length,a) => length + 1)
+  def lengthFoldLeft[A](l: List[A]): Int = foldLeft(l,0)((length,head) => length + 1)
 
+  //3.12
+  def reverse[A](l: List[A]): List[A] = foldLeft(l,List[A]())((list,head) => Cons(head,list))
+  
   def map[A,B](l: List[A])(f: A => B): List[B] = sys.error("todo")
 }
