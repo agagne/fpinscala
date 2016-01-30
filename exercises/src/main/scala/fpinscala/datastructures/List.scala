@@ -94,6 +94,13 @@ object List { // `List` companion object. Contains functions for creating and wo
     
   
   }
+  
+  //3.11 - foldLeft sum 
+  def sumFoldLeft(l: List[Int]): Int = foldLeft(l,0)(_+_)  
+  //3.11 - foldLeft product
+  def productFoldLeft(l: List[Int]): Int = foldLeft(l,1)(_*_)
+  //3.11 - foldLeft length
+  def lengthFoldLeft[A](l: List[A]): Int = foldLeft(l,0)((length,a) => length + 1)
 
   def map[A,B](l: List[A])(f: A => B): List[B] = sys.error("todo")
 }
