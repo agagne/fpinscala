@@ -30,6 +30,17 @@ object Tree {
     case Branch(left: Tree[A], right: Tree[A]) => Branch(map(left)(f),  map(right)(f))
   }
 
+  //3.29
+  //used the hint that gave me the function definition
+  def fold[A,B](t: Tree[A])(leafFunc: A => B)(f: (B,B) => B): B = t match {
+    case Leaf(value) => leafFunc(value)
+    case Branch(left: Tree[A], right: Tree[A]) => f(fold(left)(leafFunc)(f), fold(right)(leafFunc)(f))
+  }
+  //probably could write these a bit more legibly with shorter variable names and utilizing type inference more
+  def foldSize[A](t: Tree[A]): Int =  fold(t)((x:A)=> 1)((left:Int,right:Int)=> 1+ left+right)
+  def foldMaximum(t: Tree[Int]): Int = fold(t)((x:Int)=>x)((x,y)=>x max y)
+  def foldDepth[A](t: Tree[A]): Int = fold(t)((x:A)=>1)((left:Int, right:Int) => 1+ ( left max right))
+  def foldMap[A,B](t: Tree[A])( f:  A => B):Tree[B] = fold(t)((x: A) => Leaf(f(x)): Tree[B])((left, right) => Branch(left, right))
 
 
 }
