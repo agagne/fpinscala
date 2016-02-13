@@ -62,9 +62,14 @@ object Option {
   def mean(xs: Seq[Double]): Option[Double] =
     if (xs.isEmpty) None
     else Some(xs.sum / xs.length)
-  def variance(xs: Seq[Double]): Option[Double] = sys.error("todo")
-
-  def map2[A,B,C](a: Option[A], b: Option[B])(f: (A, B) => C): Option[C] = sys.error("todo")
+  //4.2
+  //had to look up the answer on this one
+  def variance(xs: Seq[Double]): Option[Double] = {
+      // where m is mean , math.power(x-m,2) for each m in the sequence
+      mean(xs).flatMap(m => mean(xs.map(x => math.pow(x - m, 2))))
+  }
+ //4.3
+  def map2[A,B,C](a: Option[A], b: Option[B])(f: (A, B) => C): Option[C] = a.flatMap { x => b.map{ y=> f(x,y)} }
 
   def sequence[A](a: List[Option[A]]): Option[List[A]] = sys.error("todo")
 
